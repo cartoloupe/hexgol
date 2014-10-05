@@ -37,9 +37,7 @@ describe 'coordinate' do
     end
     it 'two angle-step pairs will reduce to one if their angles are complements' do
       @coordinate.add_angle_step [60,1]
-      expect( @coordinate.add_angle_step [240,1]).to eq [
-        [0,0],
-      ]
+      expect( @coordinate.add_angle_step [240,1]).to eq []
     end
   end
 

@@ -18,11 +18,24 @@ class Coordinate
     ]
   end
 
-  def add_angle_step(xy)
-    @coordinates << [xy.first,xy.last]
+  def angles
+    @coordinates.map(&:first)
+  end
+
+  def complements
+    @coordinates.map(&:first).map{|angle| (angle + 180) % 360 }
+  end
+
+  def add_angle_step(angle_step)
+    angle,step = *angle_step
+    if complements.include? angle
+      angle,step = Coordinate.angle_step_complement(angle_step)
+    end
+    @coordinates << [angle,step]
     @coordinates.sort!
     @coordinates.reject!{|c| c == [0,0]}
     reduce_angle_step_pairs
+    reduce_zero_steps
     @coordinates
   end
 
@@ -35,6 +48,10 @@ class Coordinate
         @coordinates.delete_at i
       end
     }
+  end
+
+  def reduce_zero_steps
+    @coordinates.reject!{|c|c.last == 0}
   end
 
   def self.angle_step_complement(angle_step)
