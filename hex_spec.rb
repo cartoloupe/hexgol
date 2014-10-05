@@ -48,6 +48,11 @@ describe 'coordinate' do
         expect(Coordinate.angle_step_complement([120,-1])).to eq [300, 1]
       end
     end
+    describe '#angle_step_reduce' do
+      it 'should return the equivalent angle step pairs by reduction' do
+        expect(Coordinate.angle_step_reduce([60,1])).to eq [[120, 1],[0, 1]]
+      end
+    end
   end
 end
 

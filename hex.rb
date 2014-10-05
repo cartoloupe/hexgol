@@ -60,6 +60,15 @@ class Coordinate
     [angle,step]
   end
 
+  def self.angle_step_reduce(angle_step)
+    angle, step = *angle_step
+    angles = [
+      (angle + 60) % 360,
+      (angle - 60) % 360,
+    ]
+    angles.map{|angl| [angl, step]}
+  end
+
 
 end
 
