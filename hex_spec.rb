@@ -7,37 +7,27 @@ describe 'coordinate' do
     @coordinate = Coordinate.new
   end
 
-  describe 'structure' do
-    it 'should consist of at least a quad of numbers' do
-      expect(@coordinate.theta).to eq 0
-      expect(@coordinate.xstep).to eq 0
-      expect(@coordinate.phi).to eq 0
-      expect(@coordinate.ystep).to eq 0
-    end
-  end
-
-
   describe 'coordinates' do
     it 'should consist of at least two angle-step pairs' do
-      expect(@coordinate.coordinates).to eq [
-        [0,0],
-        [0,0],
-      ]
+      expect(@coordinate.coordinates).to eq []
     end
     it 'adding an angle-step pair will reduce back to two angle-step pairs or less' do
-      expect(@coordinate.add_angle_step [60,1]).to eq [
+      @coordinate.add_angle_step([60,1])
+      expect(@coordinate.angle_steps).to eq [
         [60,1],
       ]
     end
     it 'two angle-step pairs will reduce to one if their angles are the same' do
       @coordinate.add_angle_step [60,1]
-      expect( @coordinate.add_angle_step [60,1]).to eq [
+      @coordinate.add_angle_step [60,1]
+      expect( @coordinate.angle_steps).to eq [
         [60,2],
       ]
     end
     it 'two angle-step pairs will reduce to one if their angles are complements' do
       @coordinate.add_angle_step [60,1]
-      expect( @coordinate.add_angle_step [240,1]).to eq []
+      @coordinate.add_angle_step [240,1]
+      expect(@coordinate.angle_steps).to eq []
     end
   end
 
@@ -67,7 +57,7 @@ end
 describe 'board' do
   board = Board.new
   describe '#neighbors' do
-    xit 'returns 6 neighbors' do
+    it 'returns 6 neighbors' do
       expect(board.neighbors(Coordinate.new).size).to eq 6
     end
 
