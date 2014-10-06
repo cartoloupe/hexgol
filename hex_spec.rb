@@ -53,6 +53,12 @@ describe 'coordinate' do
         expect(Coordinate.angle_step_reduce([60,1])).to eq [[120, 1],[0, 1]]
       end
     end
+    describe '#add_angle_step' do
+      it 'should return the equivalent angle step pairs by reduction' do
+        expect(Coordinate.angle_step_reduce([60,1])).to eq [[120, 1],[0, 1]]
+      end
+    end
+
   end
 end
 
@@ -65,7 +71,7 @@ describe 'board' do
       expect(board.neighbors(Coordinate.new).size).to eq 6
     end
 
-    xit 'returns 6 neigboring coordinates' do
+    it 'returns 6 neigboring coordinates' do
       expect(board.neighbors(Coordinate.new)).to eq [
         Coordinate.new(  0,1,0,0),
         Coordinate.new( 60,1,0,0),
