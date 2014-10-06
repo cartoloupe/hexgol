@@ -55,14 +55,16 @@ end
 
 
 describe 'board' do
-  board = Board.new
+  before(:each) do
+    @board = Board.new
+  end
   describe '#neighbors' do
     it 'returns 6 neighbors' do
-      expect(board.neighbors(Coordinate.new).size).to eq 6
+      expect(@board.neighbors(Coordinate.new).size).to eq 6
     end
 
     it 'returns 6 neigboring coordinates' do
-      expect(board.neighbors(Coordinate.new)).to eq [
+      expect(@board.neighbors(Coordinate.new)).to eq [
         Coordinate.new(  0,1,0,0),
         Coordinate.new( 60,1,0,0),
         Coordinate.new(120,1,0,0),
@@ -71,6 +73,16 @@ describe 'board' do
         Coordinate.new(300,1,0,0),
       ]
     end
+  end
 
+  describe '#add_cell' do
+    it 'adds a coordinate to the board' do
+      @board.add_cell Coordinate.new(0,1,60,2)
+      expect(@board.cells.size).to eq 1
+      @board.add_cell Coordinate.new(0,1,60,2)
+      expect(@board.cells.size).to eq 1
+      @board.add_cell Coordinate.new(0,1,60,4)
+      expect(@board.cells.size).to eq 2
+    end
   end
 end

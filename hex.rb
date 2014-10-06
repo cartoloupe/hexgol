@@ -1,4 +1,5 @@
 require 'pry'
+require 'set'
 
 class Coordinate
   attr_accessor :coordinates
@@ -23,6 +24,14 @@ class Coordinate
   end
 
   def ==(another_coordinate)
+    @coordinates == another_coordinate.coordinates
+  end
+
+  def hash
+    @coordinates.hash
+  end
+
+  def eql?(another_coordinate)
     @coordinates == another_coordinate.coordinates
   end
 
@@ -90,8 +99,10 @@ end
 
 
 class Board
+  attr_accessor :cells
 
   def initialize
+    @cells = Set.new
 
   end
 
@@ -100,6 +111,10 @@ class Board
       neighbor = Coordinate.new(coordinate.coordinates)
       neighbor.add_angle_step([angle, 1])
     end
+  end
+
+  def add_cell coordinate
+    @cells.add(coordinate)
   end
 end
 
