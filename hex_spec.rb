@@ -85,4 +85,25 @@ describe 'board' do
       expect(@board.cells.size).to eq 2
     end
   end
+
+
+  describe '#has_cell?' do
+    it 'checks to see if coordinate exists on board' do
+      @board.add_cell Coordinate.new(0,1,60,2)
+      @board.add_cell Coordinate.new(0,4,60,2)
+      @board.add_cell Coordinate.new(300,1,60,2)
+      expect(@board.has_cell?(Coordinate.new(0,4,60,2))).to be true
+      expect(@board.has_cell?(Coordinate.new(0,5,60,2))).to be false
+    end
+  end
+
+  describe '#live_neighbors' do
+    it 'reports number of live neighbors of a coordinate' do
+      @board.add_cell Coordinate.new(0,1)
+      @board.add_cell Coordinate.new(180,1)
+      @board.add_cell Coordinate.new(0,1,60,2)
+      @board.add_cell Coordinate.new(300,1,60,2)
+      expect(@board.live_neighbors(Coordinate.new())).to eq 2
+    end
+  end
 end

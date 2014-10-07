@@ -116,6 +116,17 @@ class Board
   def add_cell coordinate
     @cells.add(coordinate)
   end
+
+  def has_cell? coordinate
+    @cells.include? coordinate
+  end
+
+  def live_neighbors(coordinate)
+    neighbors(coordinate).count do |neighbor|
+      has_cell? neighbor
+    end
+  end
+
 end
 
 
