@@ -1,6 +1,6 @@
 
 
-`rspec hex_spec.rb -fd`
+`rspec spec -fd`
 
 
 
