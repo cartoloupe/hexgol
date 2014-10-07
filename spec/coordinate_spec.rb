@@ -1,5 +1,5 @@
 require 'rspec'
-require_relative 'hex.rb'
+require_relative '../hex'
 
 describe 'coordinate' do
   before(:each) do
