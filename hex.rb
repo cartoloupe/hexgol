@@ -35,27 +35,58 @@ class Coordinate
     @coordinates == another_coordinate.coordinates
   end
 
+  def sort_pairs!
+    @coordinates.sort!
+  end
 
   def add_angle_step(angle_step)
-    sort_pairs = -> {@coordinates.sort!}
-
     angle,step = *angle_step
     if complements.include? angle
       angle,step = Coordinate.angle_step_complement(angle_step)
     end
 
     @coordinates << [angle,step]
-    sort_pairs.()
+    sort_pairs!
     reduce_zero_steps
     reduce_angle_step_pairs
     reduce_zero_steps
     while angles.size > 2
       restate_pairs
-      sort_pairs.()
+      sort_pairs!
       reduce_angle_step_pairs
       reduce_zero_steps
     end
     self
+  end
+
+  def normalize!
+    zero = -> {@coordinates[0].first}
+    sixty = -> {@coordinates[1].first}
+    nothing_else = -> {@coordinates.size == 2}
+    @coordinates << [0,0]
+    @coordinates << [60,0]
+    until (zero.() == 0 && sixty.() == 60 && nothing_else.()) do
+      sort_pairs!
+      # complement
+      @coordinates.each do |angle,step|
+        if angle > 180
+          angle,step = Coordinate.angle_step_complement([angle,step])
+        end
+      end
+      simplify_pairs!
+      # reduce
+      @coordinates.each do |angle,step|
+        if angle > 60
+          angle,step = Coordinate.angle_step_complement([angle,step])
+        end
+      end
+      simplify_pairs!
+    end
+  end
+
+  def simplify_pairs!
+    sort_pairs!
+    reduce_angle_step_pairs
   end
 
   def restate_pairs

@@ -48,6 +48,14 @@ describe 'coordinate' do
       end
     end
 
+    describe '#normalize!' do
+      it 'normalizes coordinates to "[0,x],[60,y]" form' do
+        coordinate = Coordinate.new(300,3,240,4)
+        coordinate.normalize!
+        expect(coordinate.coordinates).to eq [[0,3], [60,-7]]
+      end
+    end
+
   end
 end
 
