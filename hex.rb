@@ -148,7 +148,7 @@ class Board
   end
 
   def add_cell coordinate
-    @cells.add(coordinate)
+    @cells.add(coordinate.normalize!)
   end
 
   def has_cell? coordinate

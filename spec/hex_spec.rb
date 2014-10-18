@@ -59,13 +59,13 @@ describe 'board' do
       @board.add_cell Coordinate.new(0,1)
       binding.pry
       expect(@board.surrounding_cells).to eq Set.new [
-        Coordinate.new(  0,0,0,0),
-        Coordinate.new( 60,1,0,0),
-        Coordinate.new(  0,1,0,0),
-        Coordinate.new(300,1,0,0),
-        Coordinate.new(  0,1,60,1),
-        Coordinate.new(  0,2,0,0),
-        Coordinate.new(  0,1,300,1),
+        Coordinate.new(  0,0,0,0).normalize!,
+        Coordinate.new( 60,1,0,0).normalize!,
+        Coordinate.new(  0,1,0,0).normalize!,
+        Coordinate.new(300,1,0,0).normalize!,
+        Coordinate.new(  0,1,60,1).normalize!,
+        Coordinate.new(  0,2,0,0).normalize!,
+        Coordinate.new(  0,1,300,1).normalize!,
       ]
     end
   end
