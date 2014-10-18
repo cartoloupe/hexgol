@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+  <style>
+    a.test {
+      font-weight: bold;
+      font-color: green;
+    }
+  </style>
+    <meta charset="utf-8" />
+    <title>Demo</title>
+</head>
+<body>
+    <a href="http://jquery.com/">jQuery</a>
+    <script src="jquery.js"></script>
+    <script>
+ 
+    // Your code goes here.
+    $( document ).ready(function() {
+      $( "a" ).click(function( event ) {
+        alert( "thanks for visiclicking" );
+        $( "a" ).addClass( "test" );
+        event.preventDefault();
+      });
+    });
+ 
+    </script>
+
+    <div class=reset>RESET</div>
+    <script>
+      $( document ).ready(function() {
+        $( ".reset" ).click(function( event ) {
+          $( "a" ).removeClass( "test" );
+          $( ".fade" ).show( "slow" );
+        });
+      });
+    </script>
+    <br>
+    <br>
+    <div class=fade>fade</div>
+    <script>
+      $( document ).ready(function() {
+        $( ".fade" ).click(function( event ) {
+          $( this ).hide( "slow" );
+        });
+      });
+    </script>
+    <br>
+    <br>
+    <div class=after>example of a callback</div>
+    <script>
+      $( document ).ready(function() {
+        $( ".after" ).click(function( event ) {
+          $( this ).hide( "slow" , function() {
+            $( this ).show( "slow" );
+          });
+        });
+      });
+    </script>
+
+    <br>
+    <div class=refactor>example of a callback</div>
+    <script>
+      hideshow = function(){
+        $( this ).hide( "slow" , function() {
+          $( this ).show( "slow" );
+        });
+      };
+
+      $( document ).ready(function() {
+        $( ".refactor" ).click(
+          hideshow
+        );
+      });
+    </script>
+
+    <br>
+    <div class=getthis>fake link</div>
+    <script>
+      $( document ).ready(function() {
+        $( ".getthis" ).click(function(){
+          $.get( "http://jquery.com/" , function(){
+            alert("you went to the page");
+          });
+        });
+      });
+    </script>
+
+</body>
+</html>
