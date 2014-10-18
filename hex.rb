@@ -31,8 +31,26 @@ class Coordinate
       theta = Math.asin((b*Math.sin(2*Math::PI/3))/d)
       [d,theta]
     when 2
+      a = (@coordinates.first.last).abs
+      b = @coordinates.last.last
+      d = Math.sqrt(a**2 + b**2 - 2*a*b*Math.cos(Math::PI/6))
+      beta = Math.asin((b*Math.sin(Math::PI/6))/d)
+      theta = Math::PI - beta
+      [d,theta]
     when 3
+      a = (@coordinates.first.last).abs
+      b = (@coordinates.last.last).abs
+      d = Math.sqrt(a**2 + b**2 - 2*a*b*Math.cos(2*Math::PI/3))
+      beta = Math.asin((b*Math.sin(2*Math::PI/3))/d)
+      theta = Math::PI + beta
+      [d,theta]
     when 4
+      a = @coordinates.first.last
+      b = (@coordinates.last.last).abs
+      d = Math.sqrt(a**2 + b**2 - 2*a*b*Math.cos(Math::PI/6))
+      beta = Math.asin((b*Math.sin(Math::PI/6))/d)
+      theta = (2*Math::PI) - beta
+      [d,theta]
     end
   end
 
@@ -40,6 +58,12 @@ class Coordinate
     normalize!
     if (@coordinates.first.last >= 0) && (@coordinates.last.last >= 0)
       1
+    elsif (@coordinates.first.last < 0) && (@coordinates.last.last >= 0)
+      2
+    elsif (@coordinates.first.last < 0) && (@coordinates.last.last < 0)
+      3
+    elsif (@coordinates.first.last >= 0) && (@coordinates.last.last < 0)
+      4
     end
 
 
