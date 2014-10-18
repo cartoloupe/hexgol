@@ -183,6 +183,35 @@ class Board
   end
 
   def next_cycle
+    cells_to_turn_off = Set.new
+    cells_to_turn_on = Set.new
+
+    # check for cells which should be turned off
+    @cells.each do |cell|
+      case live_neighbors(cell)
+      when 0, 1, 4, 5, 6
+        cells_to_turn_off.add cell
+      end
+    end
+
+    # check for cells coming to life
+    surrounding_cells.each do |cell|
+      # if any empty cell has 3 live neighbors
+      # it should come to life
+      if !(has_cell?(cell)) && live_neighbors(cell) == 3
+        cells_to_turn_on.add cell
+      end
+    end
+
+    # delete the cells to turn off
+    cells_to_turn_off.each do |cell|
+      @cells.delete cell
+    end
+
+    # bring some cells to life
+    cells_to_turn_on.each do |cell|
+      add_cell cell
+    end
   end
 end
 
