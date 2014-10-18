@@ -57,6 +57,14 @@ describe 'coordinate' do
     end
 
   end
+
+  describe '#to_xy' do
+    it 'converts hex coordinates to x,y coordinates in quadrant I' do
+      coordinate = Coordinate.new(0,3,60,2)
+      expect(coordinate.to_xy).to eq [4.000, 1.732]
+    end
+  end
+
 end
 
 

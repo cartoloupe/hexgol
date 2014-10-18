@@ -15,6 +15,36 @@ class Coordinate
   end
   alias :angle_steps :to_s
 
+  def to_xy
+    d,theta = to_polar
+    x = d*Math.cos(theta)
+    y = d*Math.sin(theta)
+    [x.round(3),y.round(3)]
+  end
+
+  def to_polar
+    case quadrant
+    when 1
+      a = @coordinates.first.last
+      b = @coordinates.last.last
+      d = Math.sqrt(a**2 + b**2 - 2*a*b*Math.cos(2*Math::PI/3))
+      theta = Math.asin((b*Math.sin(2*Math::PI/3))/d)
+      [d,theta]
+    when 2
+    when 3
+    when 4
+    end
+  end
+
+  def quadrant
+    normalize!
+    if (@coordinates.first.last >= 0) && (@coordinates.last.last >= 0)
+      1
+    end
+
+
+  end
+
   def angles
     @coordinates.map(&:first)
   end
