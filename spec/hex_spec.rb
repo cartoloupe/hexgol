@@ -11,13 +11,13 @@ describe 'board' do
     end
 
     it 'returns 6 neigboring coordinates' do
-      expect(@board.neighbors(Coordinate.new)).to eq [
-        Coordinate.new(  0,1,0,0),
-        Coordinate.new( 60,1,0,0),
-        Coordinate.new(120,1,0,0),
-        Coordinate.new(180,1,0,0),
-        Coordinate.new(240,1,0,0),
-        Coordinate.new(300,1,0,0),
+      expect(@board.neighbors(Coordinate.new 0,1)).to eq Set.new [
+        Coordinate.new(  0,0,0,0).normalize!,
+        Coordinate.new( 60,1,0,0).normalize!,
+        Coordinate.new(0,1,60,1).normalize!,
+        Coordinate.new(0,2,0,0).normalize!,
+        Coordinate.new(0,1,60,-1).normalize!,
+        Coordinate.new(0,1,300,1).normalize!,
       ]
     end
   end
@@ -51,6 +51,37 @@ describe 'board' do
       @board.add_cell Coordinate.new(0,1,60,2)
       @board.add_cell Coordinate.new(300,1,60,2)
       expect(@board.live_neighbors(Coordinate.new())).to eq 2
+    end
+  end
+
+  describe '#surrounding_cells' do
+    it 'returns the cells that could be changed' do
+      @board.add_cell Coordinate.new(0,1)
+      binding.pry
+      expect(@board.surrounding_cells).to eq Set.new [
+        Coordinate.new(  0,0,0,0),
+        Coordinate.new( 60,1,0,0),
+        Coordinate.new(  0,1,0,0),
+        Coordinate.new(300,1,0,0),
+        Coordinate.new(  0,1,60,1),
+        Coordinate.new(  0,2,0,0),
+        Coordinate.new(  0,1,300,1),
+      ]
+    end
+  end
+
+  describe 'shuts down cells' do
+    xit 'when a live cell has 0 or 1 neighbors' do
+      @board.add_cell Coordinate.new(0,1)
+      @board.add_cell Coordinate.new(0,-1)
+      @board.add_cell Coordinate.new(60,-1)
+    end
+    xit 'when a live cell has 4,5, or 6 neighbors' do
+    end
+  end
+
+  describe '#turns on cells' do
+    xit 'when a dead cell has 3 neighbors' do
     end
   end
 

@@ -48,12 +48,12 @@ class Coordinate
     @coordinates << [angle,step]
     sort_pairs!
     reduce_zero_steps
-    reduce_angle_step_pairs
+    simplify_angle_step_pairs!
     reduce_zero_steps
     while angles.size > 2
       restate_pairs
       sort_pairs!
-      reduce_angle_step_pairs
+      simplify_angle_step_pairs!
       reduce_zero_steps
     end
     self
@@ -68,25 +68,36 @@ class Coordinate
     until (zero.() == 0 && sixty.() == 60 && nothing_else.()) do
       sort_pairs!
       # complement
-      @coordinates.each do |angle,step|
-        if angle > 180
+      @coordinates.map! do |angle,step|
+        if angle >= 180
           angle,step = Coordinate.angle_step_complement([angle,step])
         end
+        [angle,step]
       end
       simplify_pairs!
       # reduce
-      @coordinates.each do |angle,step|
+      new_coordinates = []
+      @coordinates.each do |angle_step|
+        angle,step = *angle_step
         if angle > 60
-          angle,step = Coordinate.angle_step_complement([angle,step])
+          angle_steps = Coordinate.angle_step_reduce([angle,step])
+        else
+          angle_steps = [[angle,step]]
+        end
+        angle_steps.each do |angle_step|
+          new_coordinates << angle_step
         end
       end
+      @coordinates = new_coordinates
+
       simplify_pairs!
     end
+    self
   end
 
   def simplify_pairs!
     sort_pairs!
-    reduce_angle_step_pairs
+    simplify_angle_step_pairs!
   end
 
   def restate_pairs
@@ -96,7 +107,7 @@ class Coordinate
     end
   end
 
-  def reduce_angle_step_pairs
+  def simplify_angle_step_pairs!
     @coordinates.each_cons(2).each_with_index{|cons, i|
       angle_step_first, angle_step_second = cons.first,cons.last
       if angle_step_first.first == angle_step_second.first
@@ -134,14 +145,6 @@ class Board
 
   def initialize
     @cells = Set.new
-
-  end
-
-  def neighbors(coordinate)
-    [0,60,120,180,240,300].map do |angle|
-      neighbor = Coordinate.new(coordinate.coordinates)
-      neighbor.add_angle_step([angle, 1])
-    end
   end
 
   def add_cell coordinate
@@ -158,6 +161,29 @@ class Board
     end
   end
 
+  def neighbors(coordinate)
+    Set.new [0,60,120,180,240,300].map do |angle|
+      neighbor = Coordinate.new(*(coordinate.coordinates).flatten)
+      neighbor.add_angle_step([angle, 1])
+      neighbor.normalize!
+    end
+  end
+
+  def surrounding_cells
+    cells_to_check = Set.new
+    # get all neighbors of cells
+    # and the cells themselves
+    @cells.each do |cell|
+      cells_to_check.add cell
+      neighbors(cell).each do |neighbor|
+        cells_to_check.add neighbor
+      end
+    end
+    cells_to_check
+  end
+
+  def next_cycle
+  end
 end
 
 
