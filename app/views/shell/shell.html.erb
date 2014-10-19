@@ -6,9 +6,15 @@
   <li><%= cell %></li>
 <% end %>
 
+<br>
+<br>
+<br>
+
+<%= submit_tag "next cycle" %>
+<%= button_to "next bicycle" %>
 
 <script>
-  var paper = Raphael(10,10,520,500);
+  var paper = Raphael(100,10,520,500);
   $( document ).ready(function() {
     $( "li" ).each(function() {
       a = $(this).text();
