@@ -8,10 +8,16 @@
 
 
 <script>
-  var paper = Raphael(10,50,320,200);
-
-  drawCircle(paper, 30,40,15);
-  drawCircle2(paper, 10,10,15);
+  var paper = Raphael(10,10,520,500);
+  $( document ).ready(function() {
+    $( "li" ).each(function() {
+      a = $(this).text();
+      b = /\[(\d+), (\d+)\]/;
+      c = b.exec(a);
+      console.log(c[0],c[1],c[2]);
+      drawCircle(paper, c[1], c[2], 5)
+    });
+  });
 </script>
 
 
