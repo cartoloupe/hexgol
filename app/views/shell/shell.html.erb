@@ -4,8 +4,6 @@
 <%= button_to "next bicycle", root_path %>
 
 <% @board.cells.each do |cell| %>
-  <li><%= cell.to_xy(25,[50,50]).map{|n| n.floor} %></li>
-  <li><%= cell.to_xy(15,[100,100]).map{|n| n.floor} %></li>
   <li><%= cell.to_xy(10,[150,150]).map{|n| n.floor} %></li>
 <% end %>
 
