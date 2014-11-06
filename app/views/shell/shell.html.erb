@@ -2,12 +2,18 @@
 <p>Hex-based <a href="http://en.wikipedia.org/wiki/Conway's_Game_of_Life">Game of Life</a></p>
 
 
-<% @display.each do |cell| %>
+<% session[:coordinates].each do |cell| %>
   <li><%= cell %></li>
 <% end %>
 
 <br>
 <%= @counter %>
+<br>
+<br>
+<%= session[:step] %>
+<br>
+<br>
+<%= session[:coordinates] %>
 <br>
 <br>
 
