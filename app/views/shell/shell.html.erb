@@ -3,7 +3,7 @@
 
 
 <% @board.cells.each do |cell| %>
-  <li><%= cell.to_xy.map{|n|(30*n).floor} %></li>
+  <li><%= cell.to_xy(10).map{|n| (n + 50).floor} %></li>
 <% end %>
 
 <br>
@@ -17,7 +17,7 @@ Living: <%= session[:coordinates] %>
 <%= button_to "next bicycle", root_path %>
 
 <script>
-  var paper = Raphael(100,10,520,500);
+  var paper = Raphael(100,100,520,500);
   $( document ).ready(function() {
     $( "li" ).each(function() {
       a = $(this).text();
