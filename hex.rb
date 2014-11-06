@@ -15,6 +15,10 @@ class Coordinate
   end
   alias :angle_steps :to_s
 
+  def to_flat
+    @coordinates.flat_map{|flat|flat}
+  end
+
   def to_xy
     d,theta = to_polar
     x = d*Math.cos(theta)
@@ -267,6 +271,13 @@ class Board
       add_cell cell
     end
   end
+
+  def coordinates
+    @cells.map do |cell|
+      cell.to_flat
+    end
+  end
+
 end
 
 

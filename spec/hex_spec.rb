@@ -107,4 +107,20 @@ describe 'board' do
     end
   end
 
+  describe '#coordinates' do
+    it 'returns coordinates of current live cells' do
+      @board.add_cell Coordinate.new(0,1)
+      @board.add_cell Coordinate.new(180,1)
+      @board.add_cell Coordinate.new(0,1,60,2)
+      @board.add_cell Coordinate.new(300,1,60,2)
+      expect(@board.coordinates).to eq [
+        [0,1,60,0],
+        [0,-1,60,0],
+        [0,1,60,2],
+        [0,1,60,1],
+      ]
+    end
+  end
+
+
 end
