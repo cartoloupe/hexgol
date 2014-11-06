@@ -20,9 +20,9 @@ to_xy: <%= @board.cells.map(&:to_xy) %>
 
 <script>
   var paper = Raphael(100,100,520,500);
-  drawCircle(paper, 50,50,5)
-  drawCircle(paper, 100,100,5)
-  drawCircle(paper, 150,150,5)
+  drawCircle(paper, 50,50,2)
+  drawCircle(paper, 100,100,2)
+  drawCircle(paper, 150,150,2)
   $( document ).ready(function() {
     $( "li" ).each(function() {
       a = $(this).text();

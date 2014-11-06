@@ -34,13 +34,16 @@ class ShellController < ApplicationController
       [0,0,60,-1],
       [0,0,120,1],
       [0,0,120,-1],
+      [0,0,120,-2],
+      [0,0,60,-2],
+      [0,0,0,0],
     ]
 
     @board = Board.new
     session[:coordinates].each do |coordinate|
       @board.add_cell Coordinate.new(*coordinate)
     end
-    # @board.next_cycle
+    @board.next_cycle
 
     session[:coordinates] = @board.coordinates
   end
