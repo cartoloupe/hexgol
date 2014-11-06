@@ -18,6 +18,11 @@ class ShellController < ApplicationController
       [0,0,60,-1],
       [0,0,120,1],
       [0,0,120,-1],
+      [0,5,60,-5],
+      [0,5,60,-4],
+      [0,5,60,-6],
+      [0,4,60,-5],
+      [0,3,60,-5],
     ]
 
     @board = Board.new
