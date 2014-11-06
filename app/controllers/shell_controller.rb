@@ -12,26 +12,22 @@ class ShellController < ApplicationController
     session[:step] += 1
 
     session[:coordinates] = [
-      [0,1,60,2],
       [0,1,60,0],
-      [0,1,60,-1],
-      [0,0,60,2],
-      [0,0,60,0],
-      [0,0,60,-1],
-      [0,2,60,2],
+      [0,-1,60,0],
       [0,0,60,1],
-      [0,3,60,2],
+      [0,0,60,-1],
+      [0,0,120,1],
+      [0,0,120,-1],
     ]
 
     @board = Board.new
-    (session[:coordinates]).each do |coordinate|
-      @board.add_cell Coordinate.new(coordinate)
+    session[:coordinates].each do |coordinate|
+      @board.add_cell Coordinate.new(*coordinate)
     end
-    session[:temp] = @board.cells.to_a
+    session[:temp] = @board.coordinates
     @board.next_cycle
 
-    session[:coordinates] = @board.cells.to_a
-    binding.pry
+    session[:coordinates] = @board.coordinates
   end
 
 end
