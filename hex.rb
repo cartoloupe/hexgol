@@ -38,8 +38,8 @@ class Coordinate
     when 2
       a = (@coordinates.first.last).abs
       b = @coordinates.last.last
-      d = Math.sqrt(a**2 + b**2 - 2*a*b*Math.cos(Math::PI/6))
-      beta = Math.asin((b*Math.sin(Math::PI/6))/d)
+      d = Math.sqrt(a**2 + b**2 - 2*a*b*Math.cos(2*Math::PI/6))
+      beta = Math.asin((b*Math.sin(2*Math::PI/6))/d)
       theta = Math::PI - beta
       [d,theta]
     when 3
