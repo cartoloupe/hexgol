@@ -48,7 +48,6 @@ class ShellController < ApplicationController
     end
     session[:step] += 1
 
-
     run_board
 
   end

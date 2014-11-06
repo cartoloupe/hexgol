@@ -60,3 +60,12 @@ function drawHexagon(paper,x,y,r){
   //hex.attr("fill", "#f00");
   hex.attr("stroke", "#f00");
 };
+
+
+function canvasClick( e ){
+  var x = e.offsetX;
+  var y = e.offsetY;
+  console.log("clicked:");
+  console.log("  x: " + x);
+  console.log("  y: " + y);
+};
