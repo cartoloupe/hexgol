@@ -58,6 +58,16 @@ describe 'coordinate' do
 
   end
 
+  describe '#quadrant' do
+    it 'returns 2 for (0,-1,60,1)' do
+      expect(Coordinate.new(0,-1,60,1).quadrant).to eq 2
+      expect(Coordinate.new(0,0,120,1).quadrant).to eq 2
+    end
+    it 'returns 4 for (0,0,120,-1)' do
+      expect(Coordinate.new(0,0,120,-1).quadrant).to eq 4
+    end
+  end
+
   describe '#to_xy' do
     it 'converts hex coordinates to x,y coordinates in quadrant I' do
       coordinate = Coordinate.new(0,3,60,2)
@@ -79,7 +89,9 @@ describe 'coordinate' do
     end
     it 'converts hex coordinates to x,y coordinates in quadrant IV' do
       coordinate = Coordinate.new(0,3,60,-2)
-      expect(coordinate.to_xy).to eq [1.268, -1.000]
+      expect(coordinate.to_xy).to eq [2.0, -1.732]
+      coordinate = Coordinate.new(0,0,120,-1)
+      expect(coordinate.to_xy).to eq [0.500, -0.866]
     end
   end
 
