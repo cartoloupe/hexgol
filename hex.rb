@@ -52,8 +52,8 @@ class Coordinate
     when 4
       a = @coordinates.first.last
       b = (@coordinates.last.last).abs
-      d = Math.sqrt(a**2 + b**2 - 2*a*b*Math.cos(Math::PI/6))
-      beta = Math.asin((b*Math.sin(Math::PI/6))/d)
+      d = Math.sqrt(a**2 + b**2 - 2*a*b*Math.cos(2*Math::PI/6))
+      beta = Math.asin( (b*Math.sin(2*Math::PI/6)) / d)
       theta = (2*Math::PI) - beta
       [d,theta]
     end
