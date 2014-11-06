@@ -56,12 +56,16 @@ class Coordinate
       beta = Math.asin( (b*Math.sin(2*Math::PI/6)) / d)
       theta = (2*Math::PI) - beta
       [d,theta]
+    else
+      [0,0]
     end
   end
 
   def quadrant
     normalize!
-    if (@coordinates.first.last >= 0) && (@coordinates.last.last >= 0)
+    if (@coordinates.first.last == 0) && (@coordinates.last.last == 0)
+      0
+    elsif (@coordinates.first.last >= 0) && (@coordinates.last.last >= 0)
       1
     elsif (@coordinates.first.last < 0) && (@coordinates.last.last >= 0)
       2

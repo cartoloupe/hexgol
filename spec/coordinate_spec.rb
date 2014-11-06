@@ -93,6 +93,10 @@ describe 'coordinate' do
       coordinate = Coordinate.new(0,0,120,-1)
       expect(coordinate.to_xy).to eq [0.500, -0.866]
     end
+    it 'converts hex coordinates to x,y coordinates at the origin' do
+      coordinate = Coordinate.new(0,0,60,0)
+      expect(coordinate.to_xy).to eq [0.0, 0.0]
+    end
   end
 
 end
