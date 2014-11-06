@@ -79,7 +79,7 @@ describe 'coordinate' do
     end
     it 'converts hex coordinates to x,y coordinates in quadrant II' do
       coordinate = Coordinate.new(0,-3,60,2)
-      expect(coordinate.to_xy).to eq [-1.268, 1.000]
+      expect(coordinate.to_xy).to eq [-2.0, 1.732]
       coordinate = Coordinate.new(0,-3,60,0)
       expect(coordinate.to_xy).to eq [-3.000, 0.000]
     end
