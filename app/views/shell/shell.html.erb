@@ -2,18 +2,15 @@
 <p>Hex-based <a href="http://en.wikipedia.org/wiki/Conway's_Game_of_Life">Game of Life</a></p>
 
 
-<% session[:coordinates].each do |cell| %>
-  <li><%= cell %></li>
+<% @board.cells.each do |cell| %>
+  <li><%= cell.to_xy.map{|n|(30*n).floor} %></li>
 <% end %>
 
 <br>
-<%= @counter %>
+Round: <%= session[:step] %>
 <br>
 <br>
-<%= session[:step] %>
-<br>
-<br>
-<%= session[:coordinates] %>
+Living: <%= session[:coordinates] %>
 <br>
 <br>
 
@@ -24,7 +21,7 @@
   $( document ).ready(function() {
     $( "li" ).each(function() {
       a = $(this).text();
-      b = /\[(\d+), (\d+)\]/;
+      b = /\[([-\d]+), ([-\d]+)\]/;
       c = b.exec(a);
       console.log(c[0],c[1],c[2]);
       drawCircle(paper, c[1], c[2], 5)

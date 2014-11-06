@@ -11,7 +11,7 @@ class ShellController < ApplicationController
     session[:step] ||= 0
     session[:step] += 1
 
-    session[:coordinates] = [
+    session[:coordinates] ||= [
       [0,1,60,0],
       [0,-1,60,0],
       [0,0,60,1],
@@ -24,7 +24,6 @@ class ShellController < ApplicationController
     session[:coordinates].each do |coordinate|
       @board.add_cell Coordinate.new(*coordinate)
     end
-    session[:temp] = @board.coordinates
     @board.next_cycle
 
     session[:coordinates] = @board.coordinates
