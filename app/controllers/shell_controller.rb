@@ -1,6 +1,22 @@
 require_relative '../../hex'
 class ShellController < ApplicationController
 
+  def set1
+    session[:coordinates] = [
+      [0,1,60,0],
+      [0,-1,60,0],
+      [0,0,60,1],
+      [0,0,60,-1],
+      [0,0,120,1],
+      [0,0,120,-1],
+      [0,5,60,-5],
+      [0,5,60,-4],
+      [0,5,60,-6],
+      [0,4,60,-5],
+      [0,3,60,-5],
+    ]
+  end
+
   def shell
     if Round.any?
       round = Round.last
@@ -18,18 +34,13 @@ class ShellController < ApplicationController
       [0,0,60,-1],
       [0,0,120,1],
       [0,0,120,-1],
-      [0,5,60,-5],
-      [0,5,60,-4],
-      [0,5,60,-6],
-      [0,4,60,-5],
-      [0,3,60,-5],
     ]
 
     @board = Board.new
     session[:coordinates].each do |coordinate|
       @board.add_cell Coordinate.new(*coordinate)
     end
-    @board.next_cycle
+    # @board.next_cycle
 
     session[:coordinates] = @board.coordinates
   end
