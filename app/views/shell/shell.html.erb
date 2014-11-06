@@ -24,7 +24,10 @@ to_xy: <%= @board.cells.map(&:to_xy) %>
   drawCircle(paper, 150,150,2)
 
   $( document ).ready(function() {
-    $("svg").bind( "mousedown", function(e){ canvasClick(e); } );
+    $("svg").bind( "mousedown", function(e){ 
+      canvasClick(e);
+      $("input[type=submit]")[0].click()
+    });
   });
 
   $( document ).ready(function() {
