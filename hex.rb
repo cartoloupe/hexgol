@@ -19,10 +19,10 @@ class Coordinate
     @coordinates.flat_map{|flat|flat}
   end
 
-  def to_xy
+  def to_xy(factor=1)
     d,theta = to_polar
-    x = d*Math.cos(theta)
-    y = d*Math.sin(theta)
+    x = factor * d*Math.cos(theta)
+    y = factor * d*Math.sin(theta)
     [x.round(3),y.round(3)]
   end
 
