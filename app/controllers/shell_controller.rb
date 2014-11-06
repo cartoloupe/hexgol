@@ -23,6 +23,18 @@ class ShellController < ApplicationController
     ]
   end
 
+  def restart
+    session[:step] = 0
+    if session[:step] == 0
+      set1
+    end
+    session[:step] += 1
+
+    run_board
+
+    render 'shell'
+  end
+
   def shell
     if Round.any?
       round = Round.last
@@ -31,22 +43,22 @@ class ShellController < ApplicationController
     end
 
     session[:step] ||= 0
+    if session[:step] == 0
+      set1
+    end
     session[:step] += 1
 
-    session[:coordinates] ||= [
-      [0,1,60,0],
-      [0,-1,60,0],
-      [0,0,60,1],
-      [0,0,60,-1],
-      [0,0,120,1],
-    ]
 
+    run_board
+
+  end
+
+  def run_board
     @board = Board.new
     session[:coordinates].each do |coordinate|
       @board.add_cell Coordinate.new(*coordinate)
     end
     @board.next_cycle
-
     session[:coordinates] = @board.coordinates
   end
 
