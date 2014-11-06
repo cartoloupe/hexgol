@@ -19,10 +19,11 @@ class Coordinate
     @coordinates.flat_map{|flat|flat}
   end
 
-  def to_xy(factor=1)
+  def to_xy(factor=1,origin=[0,0])
+    xorigin,yorigin = *origin
     d,theta = to_polar
-    x = factor * d*Math.cos(theta)
-    y = factor * d*Math.sin(theta)
+    x = xorigin + (factor * d*Math.cos(theta) )
+    y = yorigin + (factor * d*Math.sin(theta) )
     [x.round(3),y.round(3)]
   end
 
@@ -64,9 +65,9 @@ class Coordinate
       1
     elsif (@coordinates.first.last < 0) && (@coordinates.last.last >= 0)
       2
-    elsif (@coordinates.first.last < 0) && (@coordinates.last.last < 0)
+    elsif (@coordinates.first.last <= 0) && (@coordinates.last.last < 0)
       3
-    elsif (@coordinates.first.last >= 0) && (@coordinates.last.last < 0)
+    elsif (@coordinates.first.last > 0) && (@coordinates.last.last < 0)
       4
     end
 
