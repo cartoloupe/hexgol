@@ -1,9 +1,12 @@
 <h1>HEXGOL</h1>
 <p>Hex-based <a href="http://en.wikipedia.org/wiki/Conway's_Game_of_Life">Game of Life</a></p>
 
+<%= button_to "next bicycle", root_path %>
 
 <% @board.cells.each do |cell| %>
-  <li><%= cell.to_xy(10).map{|n| (n + 50).floor} %></li>
+  <li><%= cell.to_xy(25,[50,50]).map{|n| n.floor} %></li>
+  <li><%= cell.to_xy(15,[100,100]).map{|n| n.floor} %></li>
+  <li><%= cell.to_xy(10,[150,150]).map{|n| n.floor} %></li>
 <% end %>
 
 <br>
@@ -12,12 +15,14 @@ Round: <%= session[:step] %>
 <br>
 Living: <%= session[:coordinates] %>
 <br>
+to_xy: <%= @board.cells.map(&:to_xy) %>
 <br>
-
-<%= button_to "next bicycle", root_path %>
 
 <script>
   var paper = Raphael(100,100,520,500);
+  drawCircle(paper, 50,50,5)
+  drawCircle(paper, 100,100,5)
+  drawCircle(paper, 150,150,5)
   $( document ).ready(function() {
     $( "li" ).each(function() {
       a = $(this).text();
