@@ -59,6 +59,7 @@ function drawHexagon(paper,x,y,r){
   //console.log(path);
   //hex.attr("fill", "#f00");
   hex.attr("stroke", "#f00");
+  return hex;
 };
 
 
@@ -67,3 +68,4 @@ function canvasClick( e ){
   var y = e.offsetY;
   return [x,y]
 };
+
