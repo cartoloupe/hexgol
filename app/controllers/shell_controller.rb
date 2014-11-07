@@ -23,15 +23,30 @@ class ShellController < ApplicationController
     ]
   end
 
+  def add_cell
+    if params[:coordinates]
+      coordinates = params[:coordinates].map(&:to_i)
+    else
+      coordinates = [0,30,60,10]
+    end
+    session[:coordinates] << coordinates
+    display_board
+    #render 'shell'
+    redirect_to shell_refresh_path
+  end
+
   def restart
     session[:step] = 0
     if session[:step] == 0
       set1
     end
     session[:step] += 1
-
     run_board
+    render 'shell'
+  end
 
+  def refresh
+    display_board
     render 'shell'
   end
 
@@ -53,12 +68,15 @@ class ShellController < ApplicationController
   end
 
   def run_board
-    @board = Board.new
-    session[:coordinates].each do |coordinate|
-      @board.add_cell Coordinate.new(*coordinate)
-    end
+    display_board
     @board.next_cycle
     session[:coordinates] = @board.coordinates
   end
 
+  def display_board
+    @board = Board.new
+    session[:coordinates].each do |coordinate|
+      @board.add_cell Coordinate.new(*coordinate)
+    end
+  end
 end
