@@ -76,9 +76,20 @@ class ShellController < ApplicationController
   end
 
   def display_board
+    gray_points
     @board = Board.new
     session[:coordinates].each do |coordinate|
       @board.add_cell Coordinate.new(*coordinate)
     end
   end
+
+  def gray_points
+    @gray_points = []
+    (1..15).each do |n|
+      (1..15).each do |m|
+        @gray_points << Coordinate.new(0,n,60,m)
+      end
+    end
+  end
+
 end
