@@ -65,7 +65,5 @@ function drawHexagon(paper,x,y,r){
 function canvasClick( e ){
   var x = e.offsetX;
   var y = e.offsetY;
-  console.log("clicked:");
-  console.log("  x: " + x);
-  console.log("  y: " + y);
+  return [x,y]
 };
