@@ -9,6 +9,11 @@ Rails.application.routes.draw do
   post 'shell/home'
   post 'shell/restart'
   get 'shell/restart'
+  post 'shell/refresh'
+  get 'shell/refresh'
+  #get 'shell/add_cell'
+
+  match 'shell/add_cell' => 'shell#add_cell', via: :post
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
