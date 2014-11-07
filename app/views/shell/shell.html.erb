@@ -17,7 +17,12 @@
 <br>
 
 <% @board.cells.each do |cell| %>
-  <li><%= cell.to_xy(multiplier,[xorigin,yorigin]).map{|n| n.floor} %></li>
+  <li class="live"><%= cell.to_xy(multiplier,[xorigin,yorigin]).map{|n| n.floor} %></li>
+<% end %>
+
+
+<% @gray_points.each do |cell| %>
+  <li class="dead"><%= cell.to_xy(multiplier,[xorigin,yorigin]).map{|n| n.floor} %></li>
 <% end %>
 
 <br>
@@ -118,7 +123,14 @@ to_xy: <%= @board.cells.map(&:to_xy) %>
   });
 
   $( document ).ready(function() {
-    $( "li" ).each(function() {
+    $( "li.dead" ).each(function() {
+      a = $(this).text();
+      b = /\[([-\d]+), ([-\d]+)\]/;
+      c = b.exec(a);
+      hex = drawHexagon(paper, c[1], c[2], multiplier / 2);
+      hex.attr("stroke", "#e0e0e0");
+    });
+    $( "li.live" ).each(function() {
       a = $(this).text();
       b = /\[([-\d]+), ([-\d]+)\]/;
       c = b.exec(a);
@@ -127,8 +139,6 @@ to_xy: <%= @board.cells.map(&:to_xy) %>
       drawHexagon(paper, c[1], c[2], multiplier / 2);
     });
   });
-
-
 
 
 
