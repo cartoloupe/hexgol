@@ -4,7 +4,13 @@
 -->
 
 <%= button_to "next bicycle", root_path %>
+<br>
 <%= button_to "restart", shell_restart_path %>
+<br>
+<%= button_to "add", shell_add_cell_path %>
+<br>
+<%= button_to "refresh", shell_refresh_path %>
+<br>
 
 <% @board.cells.each do |cell| %>
   <li><%= cell.to_xy(10,[150,150]).map{|n| n.floor} %></li>
@@ -23,10 +29,32 @@ to_xy: <%= @board.cells.map(&:to_xy) %>
   var paper = Raphael(100,100,520,500);
   drawCircle(paper, 150,150,2)
 
+  function convertToCoordinates(x,y){
+    console.log("covertToCoordinates for: " + x + "," + y);
+    return [0,32,60,0];
+  };
+
   $( document ).ready(function() {
     $("svg").bind( "mousedown", function(e){ 
-      canvasClick(e);
-      $("input[type=submit]")[0].click()
+      xy = canvasClick(e);
+      x = xy[0];
+      y = xy[1];
+      console.log("clicked:");
+      console.log("  x: " + x);
+      console.log("  y: " + y);
+
+
+      var coordinates = convertToCoordinates(x,y);
+      console.log("coordinates are: " + coordinates);
+      var url = '/shell/add_cell';
+
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: { coordinates : coordinates }
+      });
+
+      $("input[type=submit]")[3].click()
     });
   });
 
