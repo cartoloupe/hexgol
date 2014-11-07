@@ -31,7 +31,33 @@ to_xy: <%= @board.cells.map(&:to_xy) %>
 
   function convertToCoordinates(x,y){
     console.log("covertToCoordinates for: " + x + "," + y);
-    return [0,32,60,0];
+    // subtract origin
+    xx = x - 150;
+    yy = y - 150;
+
+    // divide by multiplier
+    xxx = xx / 10;
+    yyy = yy / 10;
+
+    // calculate hypotenuse
+    d = Math.sqrt( ((xxx * xxx) + (yyy * yyy)) );
+
+    // calculate theta
+    theta = Math.asin(yyy / d);
+
+    // calculate phi
+    phi = (Math.PI/3) - theta;
+
+    // calculate hex x and hex y
+    hexx = (Math.sin(phi) / Math.sin(2 * Math.PI / 3)) * d;
+    hexy = (Math.sin(theta) / Math.sin(2 * Math.PI / 3)) * d;
+
+    // round
+    roundx = Math.round(hexx);
+    roundy = Math.round(hexy);
+
+
+    return [0,roundx,60,roundy];
   };
 
   $( document ).ready(function() {
