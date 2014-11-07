@@ -68,6 +68,18 @@ describe 'coordinate' do
     end
   end
 
+  describe '#to_polar' do
+    it 'converts hex coordinates to polar coordinates extensively' do
+      (-15..15).each do |n|
+        (-15..15).each do |m|
+          coordinate = Coordinate.new(0,n,60,m)
+          #puts "#{n}, #{m}"
+          expect(-> {coordinate.to_polar}).not_to raise_error
+        end
+      end
+    end
+  end
+
   describe '#to_xy' do
     it 'converts hex coordinates to x,y coordinates in quadrant I' do
       coordinate = Coordinate.new(0,3,60,2)
@@ -96,6 +108,14 @@ describe 'coordinate' do
     it 'converts hex coordinates to x,y coordinates at the origin' do
       coordinate = Coordinate.new(0,0,60,0)
       expect(coordinate.to_xy).to eq [0.0, 0.0]
+    end
+    it 'converts hex coordinates to x,y coordinates extensively' do
+      (-15..15).each do |n|
+        (-15..15).each do |m|
+          coordinate = Coordinate.new(0,n,60,m)
+          expect(-> {coordinate.to_xy}).not_to raise_error
+        end
+      end
     end
   end
 
