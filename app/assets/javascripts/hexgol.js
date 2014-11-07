@@ -36,18 +36,18 @@ function drawCircle(paper,a,b,c){
 function drawHexagon(paper,x,y,r){
   var step = r * Math.cos(Math.PI / 6);
   var tick = r/2;
-  console.log("x: " + x);
-  console.log("y: " + y);
-  console.log("r: " + r);
-  console.log("step: " + step);
-  console.log("tick: " + tick);
+  //console.log("x: " + x);
+  //console.log("y: " + y);
+  //console.log("r: " + r);
+  //console.log("step: " + step);
+  //console.log("tick: " + tick);
   var xostep = x*1 + step*1
   var yotick = y*1 + tick*1
   var xistep = x*1 - step*1
   var yitick = y*1 - tick*1
   var yor = y*1 + r*1
   var yir = y*1 - r*1
-  console.log("xostep: " + xostep);
+  //console.log("xostep: " + xostep);
   path = 'M' + (xostep) + ',' + (yotick)
     + 'L' + (x) + ',' + (yor)
     + 'L' + (xistep) + ',' + (yotick)
@@ -56,7 +56,7 @@ function drawHexagon(paper,x,y,r){
     + 'L' + (xostep) + ',' + (yitick)
     + 'L' + (xostep) + ',' + (yotick);
   hex = paper.path(path);
-  console.log(path);
+  //console.log(path);
   //hex.attr("fill", "#f00");
   hex.attr("stroke", "#f00");
 };
