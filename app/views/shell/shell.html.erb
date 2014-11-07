@@ -1,7 +1,11 @@
-<!--
-<h1>HEXGOL</h1>
+<div class="hexgol"><h1>HEXGOL</h1></div>
+<script>
+  var reddot = Raphael(0,0,200,100);
+  drawCircle(reddot,115,40,5)
+</script>
 <p>Hex-based <a href="http://en.wikipedia.org/wiki/Conway's_Game_of_Life">Game of Life</a></p>
--->
+
+<% xorigin,yorigin,multiplier = 150,150,20 %>
 
 <%= button_to "next bicycle", root_path %>
 <br>
@@ -13,7 +17,7 @@
 <br>
 
 <% @board.cells.each do |cell| %>
-  <li><%= cell.to_xy(10,[150,150]).map{|n| n.floor} %></li>
+  <li><%= cell.to_xy(multiplier,[xorigin,yorigin]).map{|n| n.floor} %></li>
 <% end %>
 
 <br>
@@ -32,19 +36,26 @@ Living: <%= session[:coordinates] %>
 to_xy: <%= @board.cells.map(&:to_xy) %>
 <br>
 
+<div class="xorigin"><%= xorigin %></div>
+<div class="yorigin"><%= yorigin %></div>
+<div class="multiplier"><%= multiplier %></div>
+
 <script>
-  var paper = Raphael(100,100,520,500);
-  drawCircle(paper, 150,150,2)
+  var xorigin = $('.xorigin').text()
+  var yorigin = $('.yorigin').text()
+  var multiplier = $('.multiplier').text()
+  var paper = Raphael(100,100,800,800);
+  drawCircle(paper,xorigin,yorigin,2)
 
   function convertToCoordinates(x,y){
-    console.log("covertToCoordinates for: " + x + "," + y);
+    //console.log("covertToCoordinates for: " + x + "," + y);
     // subtract origin
-    xx = x - 150;
-    yy = y - 150;
+    xx = x - xorigin;
+    yy = y - yorigin;
 
     // divide by multiplier
-    xxx = xx / 10;
-    yyy = yy / 10;
+    xxx = xx / multiplier;
+    yyy = yy / multiplier;
 
     // calculate hypotenuse
     d = Math.sqrt( ((xxx * xxx) + (yyy * yyy)) );
@@ -63,33 +74,46 @@ to_xy: <%= @board.cells.map(&:to_xy) %>
     roundx = Math.round(hexx);
     roundy = Math.round(hexy);
 
-
     return [0,roundx,60,roundy];
   };
 
+  function trackPoints(e) {
+    allPoints.push({ x: e.offsetX, y: e.offsetY });
+  };
+
+  function convertAndPost(points){
+    var url = '/shell/add_cell';
+    var theCoordinates = points.map(function(point){
+      //console.log(" " + point.x + "," + point.y);
+      return convertToCoordinates(point.x,point.y);
+    });
+
+    console.log(theCoordinates);
+
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: { coordinates : theCoordinates }
+    });
+  };
+
+  var allPoints = [];
   $( document ).ready(function() {
-    $("svg").bind( "mousedown", function(e){ 
-      xy = canvasClick(e);
-      x = xy[0];
-      y = xy[1];
-      console.log("clicked:");
-      console.log("  x: " + x);
-      console.log("  y: " + y);
+    $("svg").mouseup(function (e) {
+      $(this).unbind("mousemove", trackPoints);
+      //console.log(allPoints);
 
-
-      var coordinates = convertToCoordinates(x,y);
-      console.log("coordinates are: " + coordinates);
-      var url = '/shell/add_cell';
-
-      $.ajax({
-        type: "POST",
-        url: url,
-        data: { coordinates : coordinates }
-      });
+      convertAndPost(allPoints);
 
       setInterval(function() {
         $("input[type=submit]")[3].click()
       }, 100);
+
+    }).mousedown(function (e) {
+      $(this).bind("mousemove", trackPoints);
+      $(this).bind("click", trackPoints);
+      allPoints = [];
+      trackPoints(e);
     });
   });
 
@@ -98,11 +122,16 @@ to_xy: <%= @board.cells.map(&:to_xy) %>
       a = $(this).text();
       b = /\[([-\d]+), ([-\d]+)\]/;
       c = b.exec(a);
-      console.log(c[1],c[2]);
+      //console.log(c[1],c[2]);
       //drawCircle(paper, c[1], c[2], 5)
-      drawHexagon(paper, c[1], c[2], 5);
+      drawHexagon(paper, c[1], c[2], multiplier / 2);
     });
   });
+
+
+
+
+
 </script>
 
 <!-- <iframe width="560" height="315" src="//www.youtube.com/embed/xP5-iIeKXE8" frameborder="0" allowfullscreen></iframe>
