@@ -17,6 +17,13 @@
 <% end %>
 
 <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 Round: <%= session[:step] %>
 <br>
 <br>
@@ -80,7 +87,9 @@ to_xy: <%= @board.cells.map(&:to_xy) %>
         data: { coordinates : coordinates }
       });
 
-      $("input[type=submit]")[3].click()
+      setInterval(function() {
+        $("input[type=submit]")[3].click()
+      }, 100);
     });
   });
 
