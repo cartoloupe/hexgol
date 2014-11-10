@@ -20,30 +20,13 @@
   <li class="live"><%= cell.to_xy(multiplier,[xorigin,yorigin]).map{|n| n.floor} %></li>
 <% end %>
 
-
 <% @gray_points.each do |cell| %>
   <li class="dead"><%= cell.to_xy(multiplier,[xorigin,yorigin]).map{|n| n.floor} %></li>
 <% end %>
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-Round: <%= session[:step] %>
-<br>
-<br>
-Living: <%= session[:coordinates] %>
-<br>
-to_xy: <%= @board.cells.map(&:to_xy) %>
-<br>
-
-<div class="xorigin"><%= xorigin %></div>
-<div class="yorigin"><%= yorigin %></div>
-<div class="multiplier"><%= multiplier %></div>
+<div class="xorigin data"><%= xorigin %></div>
+<div class="yorigin data"><%= yorigin %></div>
+<div class="multiplier data"><%= multiplier %></div>
 
 <script>
   var xorigin = $('.xorigin').text()
@@ -119,6 +102,8 @@ to_xy: <%= @board.cells.map(&:to_xy) %>
       $(this).bind("click", trackPoints);
       allPoints = [];
       trackPoints(e);
+    }).click(function (e) {
+      trackPoints(e);
     });
   });
 
@@ -146,6 +131,4 @@ to_xy: <%= @board.cells.map(&:to_xy) %>
 
 <!-- <iframe width="560" height="315" src="//www.youtube.com/embed/xP5-iIeKXE8" frameborder="0" allowfullscreen></iframe>
 -->
-
-
 
