@@ -225,6 +225,8 @@ class Board
   end
 
   def neighbors(coordinate)
+    #level_0 = Coordinate.new(*(coordinate.coordinates).flatten)
+    #level_1 = Set.new [0,60,120,180,240,300].map do |angle|
     Set.new [0,60,120,180,240,300].map do |angle|
       neighbor = Coordinate.new(*(coordinate.coordinates).flatten)
       neighbor.add_angle_step([angle, 1])
