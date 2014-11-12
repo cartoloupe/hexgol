@@ -35,11 +35,12 @@
   var paper = Raphael(100,10,800,800);
   drawCircle(paper,xorigin,yorigin,2)
 
-  function convertToCoordinates(x,y){
+  function convertToHex(x,y){
     //console.log("covertToCoordinates for: " + x + "," + y);
     // subtract origin
     xx = x - xorigin;
-    yy = y - yorigin;
+    yy = -1 * (y - yorigin);
+    console.log([xx,yy]);
 
     // divide by multiplier
     xxx = xx / multiplier;
@@ -47,9 +48,15 @@
 
     // calculate hypotenuse
     d = Math.sqrt( ((xxx * xxx) + (yyy * yyy)) );
+    console.log("hypotenuse is " + d);
+
+    in_degrees = function(theta){
+      return theta * 180 / Math.PI;
+    };
 
     // calculate theta
     theta = Math.asin(yyy / d);
+    console.log("theta is: " + theta + ", or " + in_degrees(theta) + " degrees");
 
     // calculate phi
     phi = (Math.PI/3) - theta;
@@ -66,18 +73,11 @@
   };
 
   function trackPoints(e) {
-    allPoints.push({ x: e.offsetX, y: e.offsetY });
+    convertPoint({x: e.offsetX, y: e.offsetY});
   };
 
-  function convertAndPost(points){
+  function post_it(points){
     var url = '/shell/add_cell';
-    var theCoordinates = points.map(function(point){
-      //console.log(" " + point.x + "," + point.y);
-      return convertToCoordinates(point.x,point.y);
-    });
-
-    console.log(theCoordinates);
-
     $.ajax({
       type: "POST",
       url: url,
@@ -85,22 +85,42 @@
     });
   };
 
-  var allPoints = [];
+  function convertPoint(point){
+    console.log("point: " + [point.x, point.y]);
+    theCoordinates = convertToHex(point.x,point.y);
+    console.log("theCoordinates: " + theCoordinates);
+
+    pointsAgain = to_xy(theCoordinates, multiplier, {x: xorigin, y: yorigin});
+
+    // drow the hexagon
+    // TODO
+    //drawHexagon(paper, c[1], c[2], multiplier / 2);
+    console.log("pointsAgain: " + pointsAgain);
+    drawHexagon(paper,
+      pointsAgain[0],
+      pointsAgain[1], 
+      multiplier / 2);
+
+    // add a li for the cell to add
+    // TODO
+    $('<li></li>', {'text': theCoordinates}).appendTo('body');
+  };
+
   $( document ).ready(function() {
     $("svg").mouseup(function (e) {
       $(this).unbind("mousemove", trackPoints);
-      //console.log(allPoints);
 
-      convertAndPost(allPoints);
+      // post the new li cells
+      // TODO
 
+      if (0) {
       setInterval(function() {
         $("input[type=submit]")[3].click()
       }, 100);
+    }
 
     }).mousedown(function (e) {
       $(this).bind("mousemove", trackPoints);
-      $(this).bind("click", trackPoints);
-      allPoints = [];
       trackPoints(e);
     }).click(function (e) {
       trackPoints(e);
@@ -124,7 +144,6 @@
       drawHexagon(paper, c[1], c[2], multiplier / 2);
     });
   });
-
 
 
 </script>

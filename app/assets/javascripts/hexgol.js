@@ -33,6 +33,38 @@ function drawCircle(paper,a,b,c){
   circle.attr("stroke", "#fff");
 };
 
+function resolve_polar(coordinate){
+  // combine the two vectors
+  h = coordinate[1];
+  s = coordinate[3];
+  x = 0; y = 0;
+  theta = Math.PI / 6;
+
+  // if s is positive
+  if (s >= 0) {
+    x = s * Math.cos(theta);
+    y = s * Math.sin(theta);
+  } else {
+  // if s is negative
+    x = -1 * (s * Math.cos(theta));
+    y = -1 * (s * Math.sin(theta));
+  }
+
+  console.log([h, x, y]);
+  return [h+x, y];
+};
+
+function to_xy(coordinate,factor,origin){
+  xorigin = 1 * origin.x;
+  yorigin = 1 * origin.y;
+  xy = resolve_polar(coordinate);
+  xyx = xy[0];
+  xyy = xy[1];
+  x = xorigin + (factor * xyx );
+  y = yorigin + (factor * xyy );
+  return [x,y]
+};
+
 function drawHexagon(paper,x,y,r){
   var step = r * Math.cos(Math.PI / 6);
   var tick = r/2;
