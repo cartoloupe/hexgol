@@ -83,12 +83,13 @@
     convertPoint({x: e.offsetX, y: e.offsetY});
   };
 
-  function post_it(points){
+  function post_it(theCoordinates){
+    console.log("adding " + theCoordinates);
     var url = '/shell/add_cell';
     $.ajax({
       type: "POST",
       url: url,
-      data: { coordinates : theCoordinates }
+      data: { coordinates : [theCoordinates] }
     });
   };
 
@@ -100,9 +101,6 @@
     pointsAgain = to_xy(theCoordinates, multiplier, {x: xorigin, y: yorigin});
 
     // draw the hexagon
-    // TODO
-    //drawHexagon(paper, c[1], c[2], multiplier / 2);
-    console.log("pointsAgain: " + pointsAgain);
     drawHexagon(paper,
       pointsAgain[0],
       pointsAgain[1], 
@@ -110,7 +108,27 @@
 
     // add a li for the cell to add
     // TODO
-    $('<li></li>', {'text': theCoordinates}).appendTo('body');
+    if (coordinateExists(theCoordinates)) {
+      // do nothing, coordinate is already in the li
+    } else {
+      $('<li></li>', {'class': "toAdd", 'text': theCoordinates}).appendTo('body');
+      post_it(theCoordinates);
+    }
+  };
+
+  function coordinateExists(theCoordinates) {
+    values = $('li.toAdd').map(function(){
+      return $(this).text();
+    });
+
+    var all = false;
+    for(var i = 0; i < values.length; i++) {
+      if (values[i] === theCoordinates.toString()) {
+        all = true;
+      }
+    }
+
+    return all;
   };
 
   $( document ).ready(function() {
