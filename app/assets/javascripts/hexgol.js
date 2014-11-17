@@ -33,14 +33,44 @@ function drawCircle(paper,a,b,c){
   circle.attr("stroke", "#fff");
 };
 
+function resolve_polar(coordinate){
+  thirty_degrees = Math.PI / 6;
+  sixty_degrees = Math.PI / 3;
+
+  // combine the two vectors
+  h = coordinate[1];
+  s = coordinate[3];
+
+  x = Math.abs(s) * Math.cos(sixty_degrees);
+  y = Math.abs(s) * Math.sin(sixty_degrees);
+
+  // if s is positive
+  if (s >= 0) {
+    rx = h + x;
+    ry = y;
+  } else {
+  // if s is negative
+    rx = h - x;
+    ry = -1 * y;
+  }
+  console.log("rx,ry: " + [rx,ry]);
+  return [rx, ry];
+};
+
+function to_xy(coordinate,factor,origin){
+  xorigin = 1 * origin.x;
+  yorigin = 1 * origin.y;
+  xy = resolve_polar(coordinate);
+  xyx = xy[0];
+  xyy = xy[1];
+  x = xorigin + (factor * xyx );
+  y = yorigin - (factor * xyy );
+  return [x,y]
+};
+
 function drawHexagon(paper,x,y,r){
   var step = r * Math.cos(Math.PI / 6);
   var tick = r/2;
-  //console.log("x: " + x);
-  //console.log("y: " + y);
-  //console.log("r: " + r);
-  //console.log("step: " + step);
-  //console.log("tick: " + tick);
   var xostep = x*1 + step*1
   var yotick = y*1 + tick*1
   var xistep = x*1 - step*1

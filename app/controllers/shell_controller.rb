@@ -25,6 +25,8 @@ class ShellController < ApplicationController
 
   def add_cell
     if params[:coordinates]
+      p params
+      p params[:coordinates].map{|k,v|v}
       coordinateses = params[:coordinates].map{|k,v|v}.map{|v|v.map(&:to_i)}
     else
       coordinateses = [[0,30,60,10]]
@@ -32,9 +34,11 @@ class ShellController < ApplicationController
     coordinateses.each do |coordinates|
       session[:coordinates] << coordinates
     end
-    display_board
+
+    render :nothing => true
+    #display_board
     #render 'shell'
-    redirect_to shell_refresh_path
+    #redirect_to shell_refresh_path
   end
 
   def restart
