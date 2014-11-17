@@ -36,34 +36,41 @@
   drawCircle(paper,xorigin,yorigin,2)
 
   function convertToHex(x,y){
-    //console.log("covertToCoordinates for: " + x + "," + y);
+    // angles
+    thirty_degrees = Math.PI / 6;
+    sixty_degrees = Math.PI / 3;
+    one_twenty_degrees = 2 * Math.PI / 3;
+    in_degrees = function(theta){
+      return theta * 180 / Math.PI;
+    };
+
     // subtract origin
     xx = x - xorigin;
     yy = -1 * (y - yorigin);
-    console.log([xx,yy]);
 
     // divide by multiplier
     xxx = xx / multiplier;
     yyy = yy / multiplier;
 
-    // calculate hypotenuse
-    d = Math.sqrt( ((xxx * xxx) + (yyy * yyy)) );
-    console.log("hypotenuse is " + d);
 
-    in_degrees = function(theta){
-      return theta * 180 / Math.PI;
-    };
+    if (yyy > 0) {
+      // find the slope
+      xprime = yyy * Math.tan(thirty_degrees);
+      hexx = xxx - xprime;
 
-    // calculate theta
-    theta = Math.asin(yyy / d);
-    console.log("theta is: " + theta + ", or " + in_degrees(theta) + " degrees");
+      // calculate hypotenuse
+      hexy = Math.abs(yyy) / (Math.cos(thirty_degrees));
 
-    // calculate phi
-    phi = (Math.PI/3) - theta;
+    } else {
+      // find the slope
+      xprime = Math.abs(yyy) * Math.tan(thirty_degrees);
+      hexx = xxx + xprime;
 
-    // calculate hex x and hex y
-    hexx = (Math.sin(phi) / Math.sin(2 * Math.PI / 3)) * d;
-    hexy = (Math.sin(theta) / Math.sin(2 * Math.PI / 3)) * d;
+      // calculate hypotenuse
+      hexy = -1 * (Math.abs(yyy) / (Math.cos(thirty_degrees)));
+    }
+
+    //console.log("[hexx,hexy]: " + [hexx,hexy]);
 
     // round
     roundx = Math.round(hexx);
@@ -86,13 +93,13 @@
   };
 
   function convertPoint(point){
-    console.log("point: " + [point.x, point.y]);
+    //console.log("point: " + [point.x, point.y]);
     theCoordinates = convertToHex(point.x,point.y);
     console.log("theCoordinates: " + theCoordinates);
 
     pointsAgain = to_xy(theCoordinates, multiplier, {x: xorigin, y: yorigin});
 
-    // drow the hexagon
+    // draw the hexagon
     // TODO
     //drawHexagon(paper, c[1], c[2], multiplier / 2);
     console.log("pointsAgain: " + pointsAgain);

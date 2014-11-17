@@ -34,24 +34,26 @@ function drawCircle(paper,a,b,c){
 };
 
 function resolve_polar(coordinate){
+  thirty_degrees = Math.PI / 6;
+  sixty_degrees = Math.PI / 3;
+
   // combine the two vectors
   h = coordinate[1];
   s = coordinate[3];
-  x = 0; y = 0;
-  theta = Math.PI / 6;
 
+  x = Math.abs(s) * Math.cos(sixty_degrees);
+  y = Math.abs(s) * Math.sin(sixty_degrees);
   // if s is positive
   if (s >= 0) {
-    x = s * Math.cos(theta);
-    y = s * Math.sin(theta);
+    rx = h + x;
+    ry = y;
   } else {
   // if s is negative
-    x = -1 * (s * Math.cos(theta));
-    y = -1 * (s * Math.sin(theta));
+    rx = h - x;
+    ry = -1 * y;
   }
-
-  console.log([h, x, y]);
-  return [h+x, y];
+  console.log("rx,ry: " + [rx,ry]);
+  return [rx, ry];
 };
 
 function to_xy(coordinate,factor,origin){
@@ -61,7 +63,7 @@ function to_xy(coordinate,factor,origin){
   xyx = xy[0];
   xyy = xy[1];
   x = xorigin + (factor * xyx );
-  y = yorigin + (factor * xyy );
+  y = yorigin - (factor * xyy );
   return [x,y]
 };
 
