@@ -23,7 +23,7 @@ class Coordinate
     xorigin,yorigin = *origin
     d,theta = to_polar
     x = xorigin + (factor * d*Math.cos(theta) )
-    y = yorigin + (factor * d*Math.sin(theta) )
+    y = yorigin - (factor * d*Math.sin(theta) )
     [x.round(3),y.round(3)]
   end
 
@@ -227,7 +227,7 @@ class Board
   def neighbors(coordinate)
     #level_0 = Coordinate.new(*(coordinate.coordinates).flatten)
     #level_1 = Set.new [0,60,120,180,240,300].map do |angle|
-    Set.new [0,60,120,180,240,300].map do |angle|
+     Set.new [0,60,120,180,240,300].map do |angle|
       neighbor = Coordinate.new(*(coordinate.coordinates).flatten)
       neighbor.add_angle_step([angle, 1])
       neighbor.normalize!

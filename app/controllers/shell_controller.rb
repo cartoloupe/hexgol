@@ -27,12 +27,16 @@ class ShellController < ApplicationController
     if params[:coordinates]
       p params
       p params[:coordinates].map{|k,v|v}
-      coordinateses = params[:coordinates].map{|k,v|v}.map{|v|v.map(&:to_i)}
+      coordinateses = params[:coordinates]
+        .map{|k,v|v}
+        .map{|v|v.map(&:to_i)}
     else
       coordinateses = [[0,30,60,10]]
     end
+
     coordinateses.each do |coordinates|
       session[:coordinates] << coordinates
+      puts "added " + coordinates.to_s + " to session coordinates"
     end
 
     render :nothing => true
@@ -70,7 +74,6 @@ class ShellController < ApplicationController
     session[:step] += 1
 
     run_board
-
   end
 
   def run_board
@@ -80,7 +83,7 @@ class ShellController < ApplicationController
   end
 
   def display_board
-    gray_points
+    #gray_points
     @board = Board.new
     session[:coordinates].each do |coordinate|
       @board.add_cell Coordinate.new(*coordinate)
